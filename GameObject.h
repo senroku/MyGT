@@ -29,10 +29,10 @@ public:
 	virtual void update() {};
 
 public:
-	GameObject* parent = nullptr;
-	Transform transform;
-	int id = 0;
 	//コンポーネントは各コンポーネントがストレージを持っている.
 	//確保時はそれを受け取る
 	std::vector<Component*> compornents;
+	int id = 0;
+	GameObject* parent = nullptr;
+	Transform transform;
 };

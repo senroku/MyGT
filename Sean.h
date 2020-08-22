@@ -26,6 +26,9 @@ public:
 	virtual void start() = 0;
 	virtual void update() = 0;
 protected:
+	//不要な場合があるので.
+	//フレームの最後に破棄作成する場合は使うべき.
+	virtual void objectDeleateCreate() {};
 
 protected:
 	std::pmr::memory_resource* m_resouse;

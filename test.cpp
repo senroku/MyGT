@@ -16,7 +16,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	}
 	SeanManager<_SeanMaxSize>* seanM = SeanManager<_SeanMaxSize>::get_instance();
 	seanM->push_back<SeanTest>();
-	seanM->push_back<SeanTest>();
 	seanM->start();
 	seanM->update();
 	seanM->pop_back();
