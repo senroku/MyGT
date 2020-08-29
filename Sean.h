@@ -20,12 +20,13 @@ struct Sean
 
 public:
 	template<class T>
-	GameObject* createGameObject() {
-
-	}
+	GameObject* createGameObject() {}
 	virtual void start() = 0;
 	virtual void update() = 0;
 protected:
+	void update(GameObject*)
+	{
+	}
 	//不要な場合があるので.
 	//フレームの最後に破棄作成する場合は使うべき.
 	virtual void objectDeleateCreate() {};

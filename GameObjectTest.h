@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-
+#include "Sprite.h"
 
 struct GameObjectTest : public GameObject
 {
@@ -19,5 +19,5 @@ struct GameObjectTest : public GameObject
 		i++;
 	}
 
-
+	Sprite sprite;
 };

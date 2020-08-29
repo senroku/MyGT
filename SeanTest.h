@@ -11,8 +11,8 @@ struct SeanTest : public Sean
 	// ※ただしこのクラス自体が同じmemory_resouseを使用している前提.
 	SeanTest(std::pmr::memory_resource* gallocator)
 		: Sean(gallocator)
-		,objectsA(pl_vector<GameObjectTest>(0, gallocator))
-		,objectsB(pl_vector<GameObject>(0, gallocator))
+		,objectsA(pl_vector<GameObjectTest>(10, gallocator))
+		,objectsB(pl_vector<GameObject>(10, gallocator))
 	{
 		objectsA.resize(0);
 		objectsB.resize(0);
@@ -22,20 +22,18 @@ struct SeanTest : public Sean
 	}
 
 	void start() {
-		//vtableを使用際の方法
-		memccpy(&(objectsA[0]), &GameObject(), 0, sizeof(GameObject));
-		objectsA.resize(objectsA.size()+1);
-		//objectsA[0] = *static_cast<GameObjectTest*>(&test);
+		createGameObject<GameObjectTest>();
+		createGameObject<GameObjectTest>();
+		createGameObject<GameObject>();
 	}
 
 	void update(){
-		for (size_t i = 0; i < objectsA.size(); i++) {
-			//(&objectsA[i])->update();
-			static_cast<GameObject*>(&objectsA[i])->update();
+		//vtableがある時点でvtable参照して関数を見に行く.
+		for (int i = 0; i < objectsA.size();i++) {
+			objectsA[i].update();
 		}
-		for (size_t i = 0; i < objectsB.size(); i++)
-		{
-			static_cast<GameObject*>(&objectsB[i])->update();
+		for (int i = 0; i < objectsB.size();i++) {
+			objectsB[i].update();
 		}
 
 	}
@@ -44,8 +42,21 @@ protected:
 	template<typename T>
 	constexpr GameObject* createGameObject() 
 	{
-		return objectsA.push_back(T);
+		static_assert(std::is_base_of_v<GameObject, T>, "T is not Sean extended interface class");
+		GameObject* result = nullptr;
+
+		//vtableごとあてはめ
+		if constexpr (std::is_same_v<GameObjectTest,T>) {
+			objectsA.resize(objectsA.size() + 1);
+			result = new((void*)(&objectsA.back())) T();
+		}
+		else if constexpr (std::is_same_v<GameObject,T>) {
+			objectsB.resize(objectsB.size() + 1);
+			result = new((void*)(&objectsB.back())) T();
+		}
+		return result;
 	}
+
 private:
 	pl_vector<GameObjectTest> objectsA;
 	pl_vector<GameObject> objectsB;
