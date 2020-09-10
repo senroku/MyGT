@@ -120,3 +120,4 @@ inline constexpr Vec2 operator *(double s, const Vec2& v)
 //    Char unused;
 //    return is >> unused >> v.x >> unused >> v.y >> unused;
 //}
+

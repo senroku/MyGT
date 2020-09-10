@@ -1,9 +1,11 @@
 #pragma once
 #include "Sean.h"
 #include "GameObjectTest.h"
+#include "GraphFPS.h"
 
 template<typename T>
 using pl_vector = std::pmr::vector<T>;
+using namespace MyGT;
 
 struct SeanTest : public Sean 
 {
@@ -25,6 +27,13 @@ struct SeanTest : public Sean
 		createGameObject<GameObjectTest>();
 		createGameObject<GameObjectTest>();
 		createGameObject<GameObject>();
+		//vtable‚ª‚ ‚é“_‚ÅvtableQÆ‚µ‚ÄŠÖ”‚ğŒ©‚És‚­.
+		for (int i = 0; i < objectsA.size(); i++) {
+			objectsA[i].start();
+		}
+		for (int i = 0; i < objectsB.size(); i++) {
+			objectsB[i].start();
+		}
 	}
 
 	void update(){
@@ -32,10 +41,10 @@ struct SeanTest : public Sean
 		for (int i = 0; i < objectsA.size();i++) {
 			objectsA[i].update();
 		}
-		for (int i = 0; i < objectsB.size();i++) {
-			objectsB[i].update();
-		}
-
+		//for (int i = 0; i < objectsB.size();i++) {
+		//	objectsB[i].update();
+		//}
+		_fps.update();
 	}
 
 protected:
@@ -58,6 +67,7 @@ protected:
 	}
 
 private:
+	fpsObject _fps;
 	pl_vector<GameObjectTest> objectsA;
 	pl_vector<GameObject> objectsB;
 };

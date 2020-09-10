@@ -2,26 +2,23 @@
 #include "GameObject.h"
 
 //GameObject‚ª‚Â‚±‚Æ.
-struct Component
-{
-	Component(const Component&) = delete;
-	Component& operator=(const Component&) = delete;
-	Component(Component&&) = delete;
-	Component& operator=(Component&&) = delete;
+//ª‚Ç‚¤‚â‚Á‚ÄŒÄ‚Ño‚·‚¨‚Â‚à‚è‚Å?
 
-private:
-	Component() = default;
+namespace MyGT {
+	class GameObject;
+	struct Component
+	{
+		Component() = default;
+		Component(GameObject* obj) {
+			object = obj;
+		}
+	public:
+		~Component() {};
 
-public:
-	~Component() {};
+		virtual void start() {};
+		virtual void update() {};
 
-	Component(GameObject* obj) {
-		object = obj;
-	}
-
-	virtual void start() {};
-	virtual void update() {};
-
-protected:
-	GameObject* object;
-};
+	protected:
+		GameObject* object;
+	};
+}

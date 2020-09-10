@@ -4,27 +4,44 @@
 #include "DxLib.h"
 #include <map>
 
-constexpr int id_max = 1000;
 
-//’x‚¢
-struct Sprite : public Component {
-private:
-	Sprite() = default;
-public:
-	~Sprite(){}
+namespace MyGT {
+	constexpr int id_max = 1000;
 
-	void start() {
-		position = &(object->transform.position);
-	}
-	void update() {
-		DrawGraph(position->x,position->y, id,true);
-	}
+	const constexpr char* test_char = "";
 
-private:
-	//idŠÇ—
-	static std::map<int,int> ids[id_max];
+	//’x‚¢
+	struct Sprite : public Component {
+		using Component::Component;
+		Sprite() = default;
+		template<char *str>
+		Sprite(GameObject* obj) :Component(obj){
+			if constexpr (str == test_char) {
+				LoadGraph(str);
+			}
+			else if constexpr (str == test_char) {
+				LoadGraph(str);
+			}
+			else if constexpr (str == test_char) {
+				LoadGraph(str);
+			}
+		}
 
-private:
-	int id;
-	Vec2* position;
-};
+	public:
+		~Sprite() {}
+
+		void start() {
+			//position = &(object->transform.position);
+		}
+		void update() {
+//			DrawGraph(object->transform.position->x, object->transform.position->y, id, true);
+		}
+
+	private:
+		//idŠÇ—,<id,g—p”>.
+		static std::pair<int, int> ids[id_max];
+
+	private:
+		int id;
+	};
+}
