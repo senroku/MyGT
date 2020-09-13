@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <tuple>
 #include <array>
+#include "DxLib.h"
 
 namespace MyGT { 
 	template <char... Chars>
@@ -13,9 +14,21 @@ namespace MyGT {
 
 	/// グラフィック管理.同値の複数ロードを防ぐようにしている.
 	template<char... Chars>
-	static constexpr int LoadDeleteGraph(bool deleteFlag = false) {
-		static std::pair<int, int> grphNum = std::make_pair<int, int>(-1, 0);
-		if (deleteFlag) {
+	struct GraphResource {
+		static constexpr int LoadG() {
+			if (grphNum.first == -1) {
+				auto ts = chars_to_array<Chars...>();
+				char* str = &ts[0];
+				grphNum.first = LoadGraph(str);
+				grphNum.second++;
+			}
+			else
+			{
+				grphNum.second++;
+			}
+			return grphNum.first;
+		}
+		static constexpr int DeleteG() {
 			grphNum.second--;
 			if (grphNum.second == 0) {
 				DeleteGraph(grphNum.first);
@@ -23,12 +36,8 @@ namespace MyGT {
 			}
 			return 0;
 		}
-		if (grphNum.first == -1) {
-			auto ts = chars_to_array<Chars...>();
-			char* str = &ts[0];
-			grphNum.first = LoadGraph(str);
-		}
-		grphNum.second++;
-		return grphNum.first;
-	}
+	private:
+		static inline std::pair<int, int> grphNum = std::make_pair<int, int>(-1, 0);
+	};
+
 }

@@ -13,11 +13,11 @@ struct GameObjectTest : public GameObject
 		id = 1;
 	}
 	~GameObjectTest() {
-		LoadDeleteGraph<'t', 'e', 's', 't', '6', '.', 'b', 'm', 'p'>(true);
+		GraphResource<'s', 'a', 't', 'u', 'k', 'i', '.', 'p', 'n', 'g'>::DeleteG();
 	}
 
 	void start() {
-		id = LoadDeleteGraph<'t','e', 's', 't', '6', '.', 'b', 'm', 'p'>();
+		id = GraphResource<'s', 'a', 't', 'u', 'k', 'i', '.', 'p', 'n', 'g'>::LoadG();
 	}
 	void update() {
 		DrawGraph(transform.position.x,transform.position.y,id,true);

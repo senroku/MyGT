@@ -30,7 +30,7 @@ namespace MyGT {
 
 	public:
 		virtual void start() {
-			id = LoadDeleteGraph<'t', 'e', 's', 't', '4', '.', 'b', 'm', 'p'>();
+			id = GraphResource<'t', 'e', 's', 't', '4', '.', 'b', 'm', 'p'>::LoadG();
 		};
 		virtual void update() {
 			DrawGraph(300, 10, id, true);

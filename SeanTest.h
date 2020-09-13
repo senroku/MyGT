@@ -2,6 +2,7 @@
 #include "Sean.h"
 #include "GameObjectTest.h"
 #include "GraphFPS.h"
+#include "GameObjectManager.h"
 
 template<typename T>
 using pl_vector = std::pmr::vector<T>;
@@ -13,11 +14,7 @@ struct SeanTest : public Sean
 	// ※ただしこのクラス自体が同じmemory_resouseを使用している前提.
 	SeanTest(std::pmr::memory_resource* gallocator)
 		: Sean(gallocator)
-		,objectsA(pl_vector<GameObjectTest>(10, gallocator))
-		,objectsB(pl_vector<GameObject>(10, gallocator))
 	{
-		objectsA.resize(0);
-		objectsB.resize(0);
 	}
 	virtual ~SeanTest()
 	{
@@ -28,22 +25,13 @@ struct SeanTest : public Sean
 		createGameObject<GameObjectTest>();
 		createGameObject<GameObject>();
 		//vtableがある時点でvtable参照して関数を見に行く.
-		for (int i = 0; i < objectsA.size(); i++) {
-			objectsA[i].start();
-		}
-		for (int i = 0; i < objectsB.size(); i++) {
-			objectsB[i].start();
-		}
+		createGameObject < GameObjectTest>();
+		managerA.start();
 	}
 
 	void update(){
 		//vtableがある時点でvtable参照して関数を見に行く.
-		for (int i = 0; i < objectsA.size();i++) {
-			objectsA[i].update();
-		}
-		//for (int i = 0; i < objectsB.size();i++) {
-		//	objectsB[i].update();
-		//}
+		managerA.update();
 		_fps.update();
 	}
 
@@ -56,20 +44,18 @@ protected:
 
 		//vtableごとあてはめ
 		if constexpr (std::is_same_v<GameObjectTest,T>) {
-			objectsA.resize(objectsA.size() + 1);
-			result = new((void*)(&objectsA.back())) T();
+			managerA.add<T>();
 		}
 		else if constexpr (std::is_same_v<GameObject,T>) {
-			objectsB.resize(objectsB.size() + 1);
-			result = new((void*)(&objectsB.back())) T();
+			managerB.add<T>();
 		}
 		return result;
 	}
 
 private:
 	fpsObject _fps;
-	pl_vector<GameObjectTest> objectsA;
-	pl_vector<GameObject> objectsB;
+	GameObjectManager<5, GameObjectTest> managerA;
+	GameObjectManager<5> managerB;
 };
 
 //ポインタ保持の場合.
