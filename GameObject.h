@@ -7,7 +7,7 @@
 #include <vector>
 
 namespace MyGT {
-	class Component;
+	struct Component;
 	struct GameObject
 	{
 		GameObject() = default;
@@ -30,7 +30,8 @@ namespace MyGT {
 
 	public:
 		virtual void start() {
-			id = GraphResource<'t', 'e', 's', 't', '4', '.', 'b', 'm', 'p'>::LoadG();
+			//id = GraphResource<'t', 'e', 's', 't', '4', '.', 'b', 'm', 'p'>::LoadG();
+			id = GraphResource<"test4.bmp">::LoadG();
 		};
 		virtual void update() {
 			DrawGraph(300, 10, id, true);

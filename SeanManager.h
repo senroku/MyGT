@@ -29,8 +29,8 @@ namespace MyGT {
 		}
 
 		template<class T>
-		Sean* push_back() {
-			static_assert(std::is_base_of_v<Sean, T>, "T is not Sean extended interface class");
+		SeanInterface* push_back() {
+			static_assert(std::is_base_of_v<SeanInterface, T>, "T is not Sean extended interface class");
 			void* p = resourse.allocate(sizeof(T));
 			pSeans.push_back(
 				//std::make_unique<T>(
@@ -42,10 +42,10 @@ namespace MyGT {
 			return pSeans.back().first;
 		}
 
-		Sean* push_back(int n) {
-			Sean* sean = new Sean();
-			return sean;
-		}
+		//SeanInterface* push_back(int n) {
+		//	SeanInterface* sean = new Sean();
+		//	return sean;
+		//}
 
 		//stackなので.
 		int pop_back() {
@@ -60,7 +60,7 @@ namespace MyGT {
 
 	private:
 		//今はここのVectorはメモリレイアウト外.
-		std::vector<std::pair<Sean*, size_t>> pSeans;
+		std::vector<std::pair<SeanInterface*, size_t>> pSeans;
 		stack_resource<N> resourse;
 	};
 }

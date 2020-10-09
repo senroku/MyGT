@@ -4,7 +4,9 @@
 #include "SeanManager.h"
 #include "SeanTest.h"
 
-#define _SeanMaxSize 32768
+#define _SeanMaxSize 16777216
+
+void testfunc();
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				 LPSTR lpCmdLine, int nCmdShow )
@@ -21,6 +23,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	{
 		 return -1;				// エラーが起きたら直ちに終了
 	}
+	//testfunc();
 	MyGT::SeanManager<_SeanMaxSize>* seanM = MyGT::SeanManager<_SeanMaxSize>::get_instance();
 	seanM->push_back<SeanTest>();
 	seanM->start();
@@ -41,6 +44,25 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	return 0 ;					// ソフトの終了
 }
 
+
+void testfunc() {
+	FpsObject fpso;
+	int id = GraphResource<"ammo.bmp">::LoadG();
+	int id2 = GraphResource<"ammo2.bmp">::LoadG();
+	int x = 0;
+	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0)
+	{
+		for (int i = 0; i < 15000; i++)
+			DrawGraph(x, 10, id, true);
+		for (int i = 0; i < 15000; i++)
+			DrawGraph(x, 310, id2, true);
+		x++;
+		if (x >= 640) {
+			x = -320;
+		}
+		fpso.update();
+	}
+}
 //
 //
 //int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)

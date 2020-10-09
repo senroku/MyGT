@@ -3,23 +3,17 @@
 #include <tuple>
 #include <array>
 #include "DxLib.h"
+#include "TemplateUtil.h"
 
 namespace MyGT { 
-	template <char... Chars>
-	constexpr static std::array<char, sizeof...(Chars) + 1>
-	chars_to_array()
-	{
-		return  {Chars...,'\0'} ;
-	};
 
 	/// グラフィック管理.同値の複数ロードを防ぐようにしている.
-	template<char... Chars>
+	template<MyTU::fixed_string Str >
 	struct GraphResource {
 		static constexpr int LoadG() {
 			if (grphNum.first == -1) {
-				auto ts = chars_to_array<Chars...>();
-				char* str = &ts[0];
-				grphNum.first = LoadGraph(str);
+
+				grphNum.first = LoadGraph(Str.str);
 				grphNum.second++;
 			}
 			else

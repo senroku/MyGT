@@ -3,27 +3,25 @@
 #include "GameObject.h"
 #include "Sprite.h"
 
-#define GameObjectTestStr "ammo.bmp"
-//#define GameObjectTestStr "satuki.png"
-
 using namespace MyGT;
+#define GameObjectTestStr "ammo2.bmp"
 
-
-struct GameObjectTest : public GameObject
+struct GameObjectTest2 : public GameObject
 {
 	using GameObject::GameObject;
-	GameObjectTest(){
+	GameObjectTest2() {
 		id = 1;
 	}
-	~GameObjectTest() {
+	~GameObjectTest2() {
 		GraphResource<GameObjectTestStr>::DeleteG();
 	}
 
 	void start() {
 		id = GraphResource<GameObjectTestStr>::LoadG();
+		transform.position.y = 240;
 	}
 	void update() {
-		DrawGraph(transform.position.x,transform.position.y,id,true);
+		DrawGraph(transform.position.x, transform.position.y, id, true);
 		transform.position.x++;
 		if (transform.position.x >= 640) {
 			transform.position.x = -320;

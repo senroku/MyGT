@@ -5,7 +5,7 @@
 //ª‚Ç‚¤‚â‚Á‚ÄŒÄ‚Ño‚·‚¨‚Â‚à‚è‚Å?
 
 namespace MyGT {
-	class GameObject;
+	struct GameObject;
 	struct Component
 	{
 		Component() = default;
@@ -13,7 +13,7 @@ namespace MyGT {
 			object = obj;
 		}
 	public:
-		~Component() {};
+		virtual ~Component() {};
 
 		virtual void start() {};
 		virtual void update() {};

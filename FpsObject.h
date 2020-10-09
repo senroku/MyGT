@@ -5,9 +5,9 @@
 
 namespace MyGT {
     constexpr int Frame = 60;
-    struct fpsObject:public GameObject
+    struct FpsObject:public GameObject
     {
-        fpsObject() :mStartTime(0), mCount(0), mFps(0.0f){}
+        FpsObject() :mStartTime(0), mCount(0), mFps(0.0f){}
 
 		void update() {
 			if (mCount == 0) { //1ƒtƒŒ[ƒ€–Ú‚È‚ç‚ğ‹L‰¯
@@ -21,7 +21,7 @@ namespace MyGT {
 			}
 			mCount++;
 			Draw();
-			Wait();
+			//Wait();
 		}
 
 		void Draw() {
