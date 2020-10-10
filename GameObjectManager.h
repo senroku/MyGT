@@ -21,21 +21,36 @@ namespace MyGT {
 	//別のテンプレートクラスを作っている.
 	//誰か方法を教えてください.
 	template <typename T,std::size_t N, bool EXISTS>
-	struct ComponentArray_b {};
+	struct ComponentArray_b {
+		virtual ~ComponentArray_b(){}
+	};
 	template <std::size_t N>
-	struct ComponentArray_b<SRC::Sprite,N,true> { std::array<Sprite, N> sprites; };
+	struct ComponentArray_b<SRC::Sprite,N,true> { 
+		std::array<Sprite, N> sprites; 
+		virtual ~ComponentArray_b() {}
+	};
 	template <typename T, std::size_t N,typename...Args>
-	struct ComponentArray : public ComponentArray_b<T,N,MyTU::is_any_same_v<T, Args>> {};
+	struct ComponentArray : public ComponentArray_b<T,N,MyTU::is_any_same_v<T, Args>> {
+		virtual ~ComponentArray() {}
+	};
 
 	template <std::size_t N,typename...Args>
 	struct GameObjectManagerHasComponentBase 
 		: public GameObjectManagerInrterface,
 		public ComponentArray<Sprite, N, Args...>
 	{
+		GameObjectManagerHasComponentBase(const GameObjectManagerHasComponentBase&) = delete;
+		GameObjectManagerHasComponentBase& operator=(const GameObjectManagerHasComponentBase&) = delete;
+		GameObjectManagerHasComponentBase(GameObjectManagerHasComponentBase&&) = delete;
+		GameObjectManagerHasComponentBase& operator=(GameObjectManagerHasComponentBase&&) = delete;
+
+		GameObjectManagerHasComponentBase() = default;
+		virtual ~GameObjectManagerHasComponentBase() {}
+
 		virtual void start() {}
 		virtual void update(){}
 		void getComponent() {
-
+			 
 		}
 		
 	};
