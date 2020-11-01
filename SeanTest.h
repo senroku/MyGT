@@ -4,6 +4,7 @@
 #include "GameObjectTest2.h"
 #include "FpsObject.h"
 #include "GameObjectManager.h"
+#include "Utils.h"
 
 static const std::size_t _TESTSIZE = 60000;
 
@@ -11,10 +12,13 @@ template<typename T>
 using pl_vector = std::pmr::vector<T>;
 using namespace MyGT;
 
-struct SeanTest : public Sean<
-	GameObjectManager<_TESTSIZE, GameObjectTest,GameObjectTest2>,
-	GameObjectManager<5,GameObject>,
-	GameObjectManager<1, FpsObject>>
+//継承じゃあかんの？
+//違いが判らないからとりあえずこれ.
+using GameObjcts = GameObjectManager<5, GameObject>;
+using GameObjectTests = GameObjectManager<_TESTSIZE, GameObjectTest, GameObjectTest2>;
+
+struct SeanTest 
+	: public Sean<GameObjectTests,GameObjcts,FpsManager>
 {
 	// 以下のように作ることでこのクラスの後ろに作られる。
 	// ※ただしこのクラス自体が同じmemory_resouseを使用している前提.
@@ -22,12 +26,14 @@ struct SeanTest : public Sean<
 		: Sean(gallocator)
 	{
 		for (int i = 0; i < _TESTSIZE/2; i++) {
-			createGameObject<GameObjectTest, 0>();
+			create_game_object<GameObjectTest, GameObjectTests>();
 		}
 		for (int i = 0; i < _TESTSIZE / 2; i++) {
-			createGameObject<GameObjectTest2, 0>();
+			create_game_object<GameObjectTest2, GameObjectTests>();
 		}
-		createGameObject<FpsObject, 2>();
+		//SeanManager::get_instance()->create_game_object<FpsObject, FpsManager>();
+		//Instantiate<FpsObject, FpsManager>();
+		create_game_object<FpsObject, FpsManager>();
 	}
 	virtual ~SeanTest()
 	{

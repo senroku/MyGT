@@ -1,10 +1,15 @@
 #pragma once
 #include "GameObject.h"
+#include "TemplateUtil.h"
 
 //GameObject‚ª‚Â‚±‚Æ.
 //ª‚Ç‚¤‚â‚Á‚ÄŒÄ‚Ño‚·‚¨‚Â‚à‚è‚Å?
 
 namespace MyGT {
+
+
+
+
 	struct GameObject;
 	struct Component
 	{
@@ -12,7 +17,6 @@ namespace MyGT {
 		Component(GameObject* obj) {
 			object = obj;
 		}
-	public:
 		virtual ~Component() {};
 
 		virtual void start() {};

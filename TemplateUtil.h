@@ -3,7 +3,7 @@
 
 namespace MyTU {
 
-	//base‚Æ‚·‚×‚Ä‚Ì—v‘f‚ª“¯‚¶‚©.
+	//‚·‚×‚Ä‚ªbase‚ğŒp³‚µ‚Ä‚¢‚é‚©.
 	template<typename base, typename...Args>
 	struct is_all_base_of {
 		 constexpr static auto value = []() constexpr {
@@ -20,6 +20,18 @@ namespace MyTU {
 		constexpr static std::size_t max = std::max<std::size_t>({ sizeof(Args)... });
 	};
 
+	//‚¢‚Ã‚ê‚©ˆê‚Â‚ªbase‚ğŒp³‚µ‚Ä‚¢‚é‚©.
+	template<typename base, typename...Args>
+	struct is_any_base_of {
+		constexpr static auto value = []() constexpr {
+			auto v = false;
+			return ((v = v || std::is_base_of_v<base, Args>), ..., v);
+		}();
+	};
+	template<typename base, typename...Args>
+	constexpr auto is_any_base_of_v = is_any_base_of<base, Args...>::value;
+
+
 	//‚¢‚Ã‚ê‚©ˆê‚Â‚ª“¯‚¶‚©
 	template<typename base,typename...Args>
 	struct is_any_same {
@@ -29,7 +41,7 @@ namespace MyTU {
 		}();
 	};
 	template<typename base, typename...Args>
-	constexpr auto is_any_same_v = is_any_same<base, Args>::value;
+	constexpr auto is_any_same_v = is_any_same<base, Args...>::value;
 
 	//char‚Ì‰Â•Ï’·‚ğ”z—ñ‚É‚·‚é.2020‚Å•s—v‚É‚È‚Á‚½.
 	template <char... Chars>

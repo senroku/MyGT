@@ -13,11 +13,11 @@ struct GameObjectTest2 : public GameObject
 		id = 1;
 	}
 	~GameObjectTest2() {
-		GraphResource<GameObjectTestStr>::DeleteG();
+		GraphResource<GameObjectTestStr>::delete_graph();
 	}
 
 	void start() {
-		id = GraphResource<GameObjectTestStr>::LoadG();
+		id = GraphResource<GameObjectTestStr>::load_graph();
 		transform.position.y = 240;
 	}
 	void update() {

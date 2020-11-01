@@ -4,45 +4,90 @@
 #include "Transform.h"
 #include "Component.h"
 #include "LoadgrphMacro.h"
+#include "SeanManager.h"
 #include <vector>
+#include <concepts>
 
 namespace MyGT {
 	struct Component;
-	struct GameObject
+
+	namespace PrivateSpace {
+		struct GameObjectAbstruct {
+			GameObjectAbstruct() = default;
+
+			GameObjectAbstruct(GameObjectAbstruct* _gameobject)
+				:transform(_gameobject->transform), parent(nullptr) {
+			}
+
+			GameObjectAbstruct(Transform _transform)
+				:parent(nullptr), transform(_transform) {}
+
+			virtual ~GameObjectAbstruct() {};
+
+		public:
+			//template<typename T, std::size_t N = -1>
+			//T* create_game_object() {
+			//	return SeanManager::get_instance().create_game_object<T,N>();
+			//}
+
+		public:
+			virtual void start() {};
+			virtual void update() {};
+
+		public:
+			int id = 0;
+			GameObjectAbstruct* parent = nullptr;
+			Transform transform;
+		};
+
+	}
+
+
+	struct GameObject : public PrivateSpace::GameObjectAbstruct
 	{
 		GameObject() = default;
-
 		GameObject(GameObject* _gameobject)
-			:transform(_gameobject->transform), parent(nullptr) {
+			:PrivateSpace::GameObjectAbstruct(_gameobject){
 		}
 
 		GameObject(Transform _transform)
-			:parent(nullptr), transform(_transform) {}
+			:PrivateSpace::GameObjectAbstruct(_transform){}
 
 		virtual ~GameObject() {};
-
-	protected:
-		///親子関係で作成.
-		constexpr void makeGameObject(GameObject* _gameObject)
-		{
-		};
 
 
 	public:
 		virtual void start() {
-			//id = GraphResource<'t', 'e', 's', 't', '4', '.', 'b', 'm', 'p'>::LoadG();
-			id = GraphResource<"test4.bmp">::LoadG();
 		};
 		virtual void update() {
-			DrawGraph(300, 10, id, true);
+		};
+	};
+
+	//未実装
+	//コンポーネントがGameObject内で管理されているパターン.
+	namespace inc {
+		struct GameObject : public PrivateSpace::GameObjectAbstruct
+		{
+			GameObject() = default;
+			GameObject(GameObject* _gameobject)
+				:PrivateSpace::GameObjectAbstruct(_gameobject) {
+			}
+
+			GameObject(Transform _transform)
+				:PrivateSpace::GameObjectAbstruct(_transform) {}
+
+			virtual ~GameObject() {};
+
+
+		public:
+			virtual void start() {
+			};
+			virtual void update() {
+			};
+		public:
+			//ここをどうするかが不明.
+			std::array<Component*, 10> components;
 		};
 
-	public:
-		//コンポーネントは各コンポーネントがストレージを持っている.
-		//確保時はそれを受け取る.
-		std::vector<Component*>* compornents;
-		int id = 0;
-		GameObject* parent = nullptr;
-		Transform transform;
-	};
+	}
 }

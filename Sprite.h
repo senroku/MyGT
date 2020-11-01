@@ -7,27 +7,19 @@
 
 namespace MyGT {
 
-	// 諸事情法用.
-	struct Sprite {};
-
 	namespace SRC{
 		constexpr int id_max = 1000;
 
 		const constexpr char* test_char = "";
 
+
 		//遅い
-		struct Sprite : public Component {
+		struct Sprite : public Component{
 			using Component::Component;
 			Sprite() = default;
 			template<char* str>
 			Sprite(GameObject* obj) :Component(obj) {
 				if constexpr (str == test_char) {
-					LoadGraph(str);
-				}
-				else if constexpr (str == test_char) {
-					LoadGraph(str);
-				}
-				else if constexpr (str == test_char) {
 					LoadGraph(str);
 				}
 			}
@@ -50,4 +42,10 @@ namespace MyGT {
 			int id;
 		};
 	}
+
+	// 所持情法用.
+	struct Sprite {
+		SRC::Sprite* spritePoint;
+	};
+
 }

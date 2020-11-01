@@ -3,10 +3,10 @@
 #include "DxLib.h"
 #include "SeanManager.h"
 #include "SeanTest.h"
+#include <array>
 
 #define _SeanMaxSize 16777216
 
-void testfunc();
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				 LPSTR lpCmdLine, int nCmdShow )
@@ -23,8 +23,10 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	{
 		 return -1;				// エラーが起きたら直ちに終了
 	}
-	//testfunc();
-	MyGT::SeanManager<_SeanMaxSize>* seanM = MyGT::SeanManager<_SeanMaxSize>::get_instance();
+	
+
+	//MyGT::SeanManager<_SeanMaxSize>* seanM = MyGT::SeanManager<_SeanMaxSize>::get_instance();
+	MyGT::SeanManager* seanM = MyGT::SeanManager::get_instance();
 	seanM->push_back<SeanTest>();
 	seanM->start();
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0)
@@ -47,8 +49,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 void testfunc() {
 	FpsObject fpso;
-	int id = GraphResource<"ammo.bmp">::LoadG();
-	int id2 = GraphResource<"ammo2.bmp">::LoadG();
+	int id = GraphResource<"ammo.bmp">::load_graph();
+	int id2 = GraphResource<"ammo2.bmp">::load_graph();
 	int x = 0;
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0)
 	{

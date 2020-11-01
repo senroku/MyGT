@@ -5,7 +5,7 @@
 
 namespace MyGT {
     constexpr int Frame = 60;
-    struct FpsObject:public GameObject
+    struct FpsObject:public GameObject,Sprite
     {
         FpsObject() :mStartTime(0), mCount(0), mFps(0.0f){}
 
@@ -41,5 +41,10 @@ namespace MyGT {
         float mFps;             //fps
         static const int N = 60;//•½‹Ï‚ğæ‚éƒTƒ“ƒvƒ‹”
         static const int FPS = 60;	//İ’è‚µ‚½FPS
+		char a[8];
     };
+
+
+	using FpsManager = GameObjectManager<1,FpsObject>;
+
 }

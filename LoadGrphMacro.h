@@ -6,11 +6,10 @@
 #include "TemplateUtil.h"
 
 namespace MyGT { 
-
 	/// グラフィック管理.同値の複数ロードを防ぐようにしている.
 	template<MyTU::fixed_string Str >
 	struct GraphResource {
-		static constexpr int LoadG() {
+		static constexpr int load_graph() {
 			if (grphNum.first == -1) {
 
 				grphNum.first = LoadGraph(Str.str);
@@ -22,7 +21,7 @@ namespace MyGT {
 			}
 			return grphNum.first;
 		}
-		static constexpr int DeleteG() {
+		static constexpr int delete_graph() {
 			grphNum.second--;
 			if (grphNum.second == 0) {
 				DeleteGraph(grphNum.first);
@@ -33,5 +32,4 @@ namespace MyGT {
 	private:
 		static inline std::pair<int, int> grphNum = std::make_pair<int, int>(-1, 0);
 	};
-
 }

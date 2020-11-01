@@ -23,10 +23,10 @@ namespace MyGT {
         ~Transform() {}
 
 
-        constexpr Vec2 getWorldPosition()
+        constexpr Vec2 get_world_position()
         {
 
-            return parent->getWorldPosition();
+            return parent->get_world_position();
         }
 
     public:
